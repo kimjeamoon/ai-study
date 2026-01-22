@@ -1,4 +1,4 @@
-module kind-agent
+module coder-ollama-agent
 
 go 1.24.2
 

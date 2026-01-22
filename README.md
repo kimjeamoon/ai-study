@@ -1,3 +1,17 @@
+
+```ts
+import { genkit } from 'genkit';
+import { googleAI } from '@genkit-ai/google-genai';
+
+const ai = genkit({ plugins: [googleAI()] });
+
+const { text } = await ai.generate({
+    model: googleAI.model('gemini-2.5-flash'),
+    prompt: 'Why is Firebase awesome?'
+});
+```
+
+
 ## .env 파일 생성
 ```bash
 OLLAMA_SERVER_ADDRESS="http://localhost:11434"

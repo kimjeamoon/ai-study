@@ -12,31 +12,37 @@ import (
 
 	"github.com/firebase/genkit/go/ai"
 	"github.com/firebase/genkit/go/genkit"
-	"github.com/firebase/genkit/go/plugins/googlegenai"
+	"github.com/firebase/genkit/go/plugins/ollama"
 	"github.com/firebase/genkit/go/plugins/server"
 	"github.com/joho/godotenv"
-	"google.golang.org/genai"
 )
 
 /*
 *
-
 	curl -X POST http://localhost:8080/codingFlow \
 	  -H "Content-Type: application/json" \
 	  -d '{"data": "피보나치 수열을 구하는 파이썬 함수를 만들어줘"}'
 */
+
 func main() {
 	_ = godotenv.Load()
 	ctx := context.Background()
 
-	// 1. Genkit 초기화 (googlegenai 플러그인 사용)
-	g := genkit.Init(ctx, genkit.WithPlugins(&googlegenai.GoogleAI{}))
+	ollamaServerUrl := os.Getenv("OLLAMA_SERVER_ADDRESS")
+	modelName := os.Getenv("MODEL_NAME")
+	// 1. Genkit 초기화 (Ollama 플러그인 사용)
+	// Ollama 플러그인은 WithPlugins에 구조체 포인터를 전달하여 초기화합니다.
+	ollamaPlugin := &ollama.Ollama{
+		ServerAddress: ollamaServerUrl,
+	}
+	g := genkit.Init(ctx, genkit.WithPlugins(ollamaPlugin))
 
-	// 사용할 모델 정의 (최신 Flash 모델)
-	// ThinkingConfig는 0으로 설정하여 빠른 응답 유도
-	model := googlegenai.ModelRef("googleai/gemini-2.5-flash", &genai.GenerateContentConfig{
-		Temperature: genai.Ptr[float32](0.5),
-	})
+	// 사용할 모델 정의 (Ollama Qwen 2.5 7B)
+	// DefineModel을 사용하여 모델을 명시적으로 등록해야 합니다.
+	model := ollamaPlugin.DefineModel(g, ollama.ModelDefinition{
+		Name: modelName, //"qwen2.5-coder:latest",
+		Type: "chat",
+	}, nil)
 
 	// 2. Reflection 에이전트 Flow 정의
 	genkit.DefineFlow(g, "codingFlow", func(ctx context.Context, input string) (string, error) {
@@ -44,7 +50,7 @@ func main() {
 			return "", fmt.Errorf("요청할 코딩 내용을 입력해주세요.")
 		}
 
-		fmt.Printf("🚀 요청 시작: %s\n", input)
+		fmt.Printf("\n🚀 요청 시작: %s\n", input)
 
 		currentCode := ""
 		feedback := ""
@@ -78,6 +84,12 @@ func main() {
 				return "", err
 			}
 			currentCode = genResp
+
+			// Markdown Code Block 제거 logic 추가
+			currentCode = strings.ReplaceAll(currentCode, "```python", "")
+			currentCode = strings.ReplaceAll(currentCode, "```", "")
+			currentCode = strings.TrimSpace(currentCode)
+
 			fmt.Printf("📝 작성된 코드 길이: %d bytes\n", len(currentCode))
 
 			if len(currentCode) < 10 {

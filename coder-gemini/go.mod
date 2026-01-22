@@ -1,4 +1,4 @@
-module kind-agent
+module coder-gemini-agent
 
 go 1.24.2
 

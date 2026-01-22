@@ -1,4 +1,4 @@
-module kind-agent
+module joke-agent
 
 go 1.24.2
 

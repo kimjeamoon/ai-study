@@ -1,2 +1,4 @@
 .env
-kind-agent
+coder-gemini-agent
+coder-ollama-agent
+joke-agent
