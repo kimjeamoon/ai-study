@@ -1,4 +1,12 @@
 
+```bash
+curl -sL cli.genkit.dev | bash
+
+genkit start -- go run .
+```
+
+
+
 ```ts
 import { genkit } from 'genkit';
 import { googleAI } from '@genkit-ai/google-genai';

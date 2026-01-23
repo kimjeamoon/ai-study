@@ -1,17 +1,16 @@
 import random
 import math
 
-def is_prime(n):
-    if n <= 1:
+def is_prime(num):
+    if num < 2:
         return False
-    for i in range(2, int(math.sqrt(n)) + 1):
-        if n % i == 0:
+    for i in range(2, int(math.sqrt(num)) + 1):
+        if num % i == 0:
             return False
     return True
 
-num = random.randint(1, 100)
-print(f"Generated number: {num}")
-if is_prime(num):
-    print(f"{num} is a prime number")
+random_number = random.randint(1, 100)
+if is_prime(random_number):
+    print(f"The generated number {random_number} is a prime number.")
 else:
-    print(f"{num} is not a prime number")
+    print(f"The generated number {random_number} is not a prime number.")
