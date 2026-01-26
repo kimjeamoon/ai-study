@@ -5,6 +5,7 @@ go 1.24.2
 require (
 	github.com/firebase/genkit/go v1.4.0
 	github.com/joho/godotenv v1.5.1
+	github.com/redis/go-redis/v9 v9.17.3
 	github.com/xuri/excelize/v2 v2.10.0
 	google.golang.org/api v0.236.0
 )
@@ -16,6 +17,8 @@ require (
 	cloud.google.com/go/compute/metadata v0.7.0 // indirect
 	github.com/bahlo/generic-list-go v0.2.0 // indirect
 	github.com/buger/jsonparser v1.1.1 // indirect
+	github.com/cespare/xxhash/v2 v2.3.0 // indirect
+	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
 	github.com/go-logr/logr v1.4.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect

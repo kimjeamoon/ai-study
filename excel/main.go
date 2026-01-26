@@ -28,10 +28,10 @@ func main() {
 	)
 
 	// Register all flows for Genkit agent mode
-	_ = flows.RegisterFlows(g, cfg)
+	allFlows := flows.RegisterFlows(g, cfg)
 
 	// Handle CLI commands if provided
-	if c.Handle(ctx, g, cfg) {
+	if c.Handle(ctx, g, cfg, allFlows) {
 		return
 	}
 

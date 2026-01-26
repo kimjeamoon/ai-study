@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -13,10 +14,17 @@ type Config struct {
 	DefaultModel  string
 	GoogleSheetID string
 	GoogleAPIKey  string
+	RedisAddr     string
+	RedisDB       int
 }
 
 func LoadConfig() *Config {
 	_ = godotenv.Load()
+
+	redisDB := 0
+	if dbStr := os.Getenv("REDIS_DB"); dbStr != "" {
+		fmt.Sscanf(dbStr, "%d", &redisDB)
+	}
 
 	return &Config{
 		XlsxDir:       getEnv("XLSX_DIR", "xlsx"),
@@ -25,6 +33,8 @@ func LoadConfig() *Config {
 		DefaultModel:  getEnv("DEFAULT_MODEL", "googleai/gemini-2.5-flash"),
 		GoogleSheetID: os.Getenv("GOOGLE_SHEET_ID"),
 		GoogleAPIKey:  os.Getenv("GOOGLE_API_KEY"),
+		RedisAddr:     getEnv("REDIS_ADDR", "localhost:6379"),
+		RedisDB:       redisDB,
 	}
 }
 
