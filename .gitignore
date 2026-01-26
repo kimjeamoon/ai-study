@@ -6,6 +6,7 @@ cpp-coder-ollama-agent
 flowsample
 session-agent
 .genkit
-excel/json
-excel/xlsx
-excel/data
+excel-agent/json
+excel-agent/xlsx
+excel-agent/data
+
