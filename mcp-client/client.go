@@ -72,7 +72,8 @@ func main() {
 
 	response, err := genkit.Generate(ctx, g,
 		ai.WithModelName("googleai/gemini-2.5-flash"),
-		ai.WithPrompt("Fetch content from https://httpbin.org/json and give me a summary of what you find"),
+		//ai.WithPrompt("Fetch content from https://httpbin.org/json and give me a summary of what you find"),
+		ai.WithPrompt("다음 문장을 base64로 인코딩해줘 : 'Hello World'"),
 		ai.WithTools(toolRefs...),
 		ai.WithToolChoice(ai.ToolChoiceAuto),
 	)

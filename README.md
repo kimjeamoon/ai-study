@@ -1,6 +1,7 @@
 
 ```bash
 curl -sL cli.genkit.dev | bash
+curl -sL cli.genkit.dev | upgrade=true bash
 
 genkit start -- go run .
 ```
